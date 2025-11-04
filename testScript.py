@@ -34,6 +34,20 @@ class TestBlackScholes(unittest.TestCase):
         callPrice = model.main()
 
         self.assertAlmostEqual(knownCallPrice, callPrice, places = 5)
+    
+    def testImpliedVolitiltyTest(self):
+        marketPrice = 9.63488
+        s = 100
+        x = 100
+        r = 0.05
+        t = 0.5
+        m = 'EU'
+
+        knownVolitility = 0.3
+        
+        volitility = BlackScholes.impliedVolitlity(marketPrice, s, x, r, t)
+
+        self.assertAlmostEqual(knownVolitility, volitility, places = 5)
 
 if __name__ == '__main__':
     unittest.main()

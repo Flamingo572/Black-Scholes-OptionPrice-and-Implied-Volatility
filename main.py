@@ -16,16 +16,46 @@ class BlackScholes:
         self.t = t
         self.o = o
         self.m = m
-
-    def EUOptionCall(self):
-        d1 = self.d1(self.s, self.x, self.r, self.t, self.o)
-        d2 = self.d2(d1)
-        c = self.s * self.N(d1) - self.x * math.exp(-self.r * self.t) * self.N(d2)
+    
+    def __str__(self):
         print("--Results--")
         print(f"d1: {d1:.6f}")
         print(f"d2: {d2:.6f}")
         print(f"Call Price: ${c:.2f}\n")
+ 
+        
+    def EUOptionCall(self):
+        d1 = self.d1(self.s, self.x, self.r, self.t, self.o)
+        d2 = self.d2(d1)
+        c = self.s * self.N(d1) - self.x * math.exp(-self.r * self.t) * self.N(d2)
         return c
+    
+    @staticmethod
+    def impliedVolitlity(marketPrice, s, x, r, t):
+        #This seems extremely hard to divmoa
+        TOLERANCE = 0.0001
+        lowV = 0.0001
+        highV = 5.0
+        maxInterations = 1000
+        
+        for i in range(maxInterations):
+            midV = (highV + lowV)/2
+            model = BlackScholes(s, x, r, t, o = midV, m = 'EU')
+
+            estPrice = model.main()
+
+            estV = estPrice - marketPrice
+
+            if(abs(estV) < TOLERANCE):
+                return midV
+            
+            if(estV > 0):
+                highV = midV
+            
+            elif(estV < 0):
+                lowV = midV
+
+        return 0
 
     def N(self, x): #N(x) from the formula
         return norm.cdf(x)
