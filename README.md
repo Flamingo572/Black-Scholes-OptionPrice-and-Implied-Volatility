@@ -28,9 +28,9 @@ Function which can be run as a static function will take the parameters specifie
 Is the test script and can be used as a benchmark if any modifications are made  
 
 ## Required Libraries  
-For main.py  
-*scipy.stats
-*math  
+#### For main.py  
+* scipy.stats
+* math  
   
-For testScript.py  
-*unittest
+#### For testScript.py  
+* unittest
